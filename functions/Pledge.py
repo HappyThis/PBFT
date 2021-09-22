@@ -1,7 +1,10 @@
+from functions.Replyer import ReplyerDecorator
+
 pledge_list = {}
 pledge_reject = False
 
 
+@ReplyerDecorator
 def Pledge(msg):
     global pledge_list
     value = msg['value']
@@ -12,7 +15,7 @@ def Pledge(msg):
     pledge_list[loopid][addr] = value
 
 
+@ReplyerDecorator
 def StopPledge(msg):
     global pledge_reject
     pledge_reject = True
-

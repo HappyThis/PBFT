@@ -16,12 +16,3 @@ class ClientMessage:
     # 生成摘要
     def Digest(self):
         return True
-
-    # 返回结果
-    # 结果，执行者对结果的签名，执行者链上地址
-    def Exec(self, endpoint):
-        # 创建进程执行
-        api = endpoint + "funcRouter"
-        self.arg["addr"] = self.clinet_addr
-        ret = requests.post(api, json=self.arg)
-        return True

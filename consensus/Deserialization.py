@@ -1,10 +1,9 @@
-import json
 
-from CheckPointMessage import CheckPointMessage
-from ClientMessage import ClientMessage
-from CommitMessage import CommitMessage
-from PrePrepareMessage import PrePrepareMessage
-from PrepareMessage import PrepareMessage
+from consensus.CheckPointMessage import CheckPointMessage
+from consensus.ClientMessage import ClientMessage
+from consensus.CommitMessage import CommitMessage
+from consensus.PrePrepareMessage import PrePrepareMessage
+from consensus.PrepareMessage import PrepareMessage
 
 
 def ToClientMsg(msg):

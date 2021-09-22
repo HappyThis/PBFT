@@ -28,3 +28,17 @@ class PrePrepareMessage:
     # 签名
     def GetSignature(self):
         return 0
+
+    # 返回结果
+    # 结果，执行者对结果的签名，执行者链上地址
+    def Exec(self, endpoint, i):
+        # 创建进程执行
+        api = endpoint + "funcRouter"
+        replyDict = {
+            "view": self.view,
+            "timestamp": self.client_message.timestamp,
+            "i": i,
+            "arg": self.client_message.arg
+        }
+        ret = requests.post(api, json=replyDict)
+        return True

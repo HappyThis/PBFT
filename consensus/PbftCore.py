@@ -1,16 +1,13 @@
 # 实用拜占庭算法核心
-import json
-import os
 from multiprocessing import get_context
 from multiprocessing.queues import Queue
 from queue import PriorityQueue
 
-from CheckPointMessage import CheckPointMessage
-from CommitMessage import CommitMessage
-from Deserialization import ToClientMsg, ToPrepare, ToPrePrepare, ToCommit, ToCheckPoint
-from PrePrepareMessage import PrePrepareMessage
-from PrepareMessage import PrepareMessage
-from ViewChangeMessage import ViewChangeMessage
+from consensus.CheckPointMessage import CheckPointMessage
+from consensus.CommitMessage import CommitMessage
+from consensus.Deserialization import ToClientMsg, ToPrepare, ToPrePrepare, ToCommit, ToCheckPoint
+from consensus.PrePrepareMessage import PrePrepareMessage
+from consensus.PrepareMessage import PrepareMessage
 
 
 class PbftCore:
@@ -102,7 +99,7 @@ class PbftCore:
             return False
         # PBFT规则检查
 
-        self.clientReq[(prePrepare.nonce, prePrepare.view)] = prePrepare.client_message
+        self.clientReq[(prePrepare.nonce, prePrepare.view)] = prePrepare
 
         # 检查通过后即向全网广播prepare信息
         # 首先构造一个prepare
@@ -179,12 +176,12 @@ class PbftCore:
 
         clientMsg = self.clientReq[(commitMessage.nonce, commitMessage.view)]
 
-        self.waitexe.put((commitMessage.nonce, commitMessage.view, clientMsg))
+        self.waitexe.put((clientMsg.nonce, clientMsg.view, clientMsg))
 
         maybeExec = self.waitexe.get()
 
         if self.currentExe == maybeExec[0]:
-            maybeExec[2].Exec(self.selfEndPoint)
+            maybeExec[2].Exec(self.selfEndPoint, self.addr)
             self.currentExe += 1
         else:
             print("except nonce is ", self.currentExe, " but min nonce is ", maybeExec[0])
