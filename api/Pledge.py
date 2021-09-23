@@ -1,18 +1,28 @@
-import requests
-
 from api.Collecter import SendCollecterDecorator
-from api.MsgCreater import PledgeCreater, StopPledgeCreater
 
 
 @SendCollecterDecorator
-def Pledge(value, url):
-    msg = PledgeCreater(value)
-    ret = requests.post(url, json=msg)
-    return ret.text, msg
+def Pledge(value, url, timestamp, addr, endpoint):
+    pledge = {"address": addr,
+              "signature": None,
+              "timestamp": timestamp,
+              "arg": {
+                  "func": "pledge",
+                  "loopid": 0,
+                  "endpoint": endpoint,
+                  "value": value
+              }}
+    return pledge
 
 
 @SendCollecterDecorator
-def StopPledge(url):
-    msg = StopPledgeCreater()
-    ret = requests.post(url, json=msg)
-    return ret.text, msg
+def StopPledge(url, timestamp, addr, endpoint):
+    stopPledge = {"address": addr,
+                  "signature": None,
+                  "timestamp": timestamp,
+                  "arg": {
+                      "func": "stopPledge",
+                      "loopid": 0,
+                      "endpoint": endpoint
+                  }}
+    return stopPledge

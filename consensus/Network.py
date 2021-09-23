@@ -1,10 +1,12 @@
-from flask import request
+from flask import request, Blueprint
 
-from app import app, pbftCore
+from consensus.PbftProcess import pbftCore
+
+bpftNetwork = Blueprint("bpftNetwork", __name__)
 
 
 # 接收pre-prepare
-@app.route('/prePrepare', methods=["POST"])
+@bpftNetwork.route('/prePrepare', methods=["POST"])
 def RecvPreprepareMsg():
     msg = request.json
     msg["type"] = "prePrepare"
@@ -13,7 +15,7 @@ def RecvPreprepareMsg():
 
 
 # 接收commit确认
-@app.route('/commit', methods=["POST"])
+@bpftNetwork.route('/commit', methods=["POST"])
 def RecvCommitMsg():
     msg = request.json
     msg["type"] = "commit"
@@ -22,7 +24,7 @@ def RecvCommitMsg():
 
 
 # 接收prepare确认
-@app.route('/prepare', methods=["POST"])
+@bpftNetwork.route('/prepare', methods=["POST"])
 def RecvPrepareMsg():
     msg = request.json
     msg["type"] = "prepare"
@@ -31,7 +33,7 @@ def RecvPrepareMsg():
 
 
 # 接收ViewChange确认
-@app.route('/viewChange', methods=["POST"])
+@bpftNetwork.route('/viewChange', methods=["POST"])
 def RecvViewChangeMsg():
     msg = request.json
     msg["type"] = "viewChange"
@@ -40,7 +42,7 @@ def RecvViewChangeMsg():
 
 
 # 接收checkpoint确认
-@app.route('/checkPoint', methods=["POST"])
+@bpftNetwork.route('/checkPoint', methods=["POST"])
 def RecvCheckPointMsg():
     msg = request.json
     msg["type"] = "checkPoint"
@@ -49,7 +51,7 @@ def RecvCheckPointMsg():
 
 
 # 接收NewView
-@app.route('/newView', methods=["POST"])
+@bpftNetwork.route('/newView', methods=["POST"])
 def RecvNewViewMsg():
     msg = request.json
     msg["type"] = "newView"

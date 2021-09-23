@@ -20,7 +20,7 @@ class PrePrepareMessage:
     def Broadcast(self, endpoints):
         data = self.__dict__
         for ep in endpoints:
-            api = ep + "prePrepare"
+            api = ep + "bpftNetwork/prePrepare"
             ret = requests.post(api, json=data)
             print("sent pre-prepare to ", ep)
         return True
@@ -38,7 +38,8 @@ class PrePrepareMessage:
             "view": self.view,
             "timestamp": self.client_message.timestamp,
             "i": i,
-            "arg": self.client_message.arg
+            "arg": self.client_message.arg,
+            "addr": self.client_message.clinet_addr
         }
         ret = requests.post(api, json=replyDict)
         return True

@@ -1,18 +1,30 @@
 import requests
 
 from api.Collecter import SendCollecterDecorator
-from api.MsgCreater import ElectCreater, StopElectCreater
 
 
 @SendCollecterDecorator
-def Elect(value, url):
-    msg = ElectCreater(value)
-    ret = requests.post(url, json=msg)
-    return ret.text, msg
+def Elect(value, url, timestamp, addr, endpoint):
+    elect = {"address": addr,
+             "signature": None,
+             "timestamp": timestamp,
+             "arg": {
+                 "func": "elect",
+                 "loopid": 0,
+                 "endpoint": endpoint,
+                 "value": value
+             }}
+    return elect
 
 
 @SendCollecterDecorator
-def StopElect(url):
-    msg = StopElectCreater()
-    ret = requests.post(url, json=msg)
-    return ret.text, msg
+def StopElect(url, timestamp, addr, endpoint):
+    stopElect = {"address": addr,
+                 "signature": None,
+                 "timestamp": timestamp,
+                 "arg": {
+                     "func": "stopElect",
+                     "loopid": 0,
+                     "endpoint": endpoint
+                 }}
+    return stopElect

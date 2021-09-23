@@ -16,7 +16,7 @@ class CommitMessage:
     def Broadcast(self, endpoints):
         data = self.__dict__
         for ep in endpoints:
-            api = ep + "commit"
+            api = ep + "bpftNetwork/commit"
             ret = requests.post(api, json=data)
             print("sent committed to ", ep)
         return True

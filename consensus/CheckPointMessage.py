@@ -15,7 +15,7 @@ class CheckPointMessage:
     def Broadcast(self, endpoints):
         data = self.__dict__
         for ep in endpoints:
-            api = ep + "checkPoint"
+            api = ep + "bpftNetwork/checkPoint"
             ret = requests.post(api, json=data)
             print("sent checkPoint to ", ep)
         return True

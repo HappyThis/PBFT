@@ -13,7 +13,6 @@ class NewViewMessage:
     # 多播
     def Broadcast(self, endpoints):
         data = json.dumps(self, default=lambda obj: obj.__dict__)
-        print(data)
         return True
 
     # 检查是否正确

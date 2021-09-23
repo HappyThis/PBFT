@@ -1,4 +1,3 @@
-
 from consensus.CheckPointMessage import CheckPointMessage
 from consensus.ClientMessage import ClientMessage
 from consensus.CommitMessage import CommitMessage

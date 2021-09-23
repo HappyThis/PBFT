@@ -1,13 +1,17 @@
 from flask import Flask, request
 
 from api.Collecter import ReplyCollecter
+from consensus.Network import bpftNetwork
 from consensus.PbftProcess import PBFT, pbftCore
 from functions.Elect import Elect, elect_reject, StopElect
 from functions.Pledge import Pledge, pledge_reject, StopPledge
-
-PBFT.start()
+from test.TestRouter import test
 
 app = Flask(__name__)
+app.register_blueprint(bpftNetwork, url_prefix="/bpftNetwork")
+app.register_blueprint(test, url_prefix="/test")
+# 如果是委员会节点那么启动
+PBFT.start()
 
 
 # 函数调用路由
@@ -23,7 +27,7 @@ def FuncRouter():
         Pledge(msg)
     if func == 'stopPledge':
         StopPledge(msg)
-    return True
+    return "ok"
 
 
 # 请求接收点
@@ -44,7 +48,7 @@ def RecvNodesMessage():
 def RecvCommitteesReply():
     msg = request.json
     ReplyCollecter(msg)
-    return True
+    return "ok"
 
 
 if __name__ == '__main__':

@@ -16,7 +16,7 @@ class PrepareMessage:
     def Broadcast(self, endpoints):
         data = self.__dict__
         for ep in endpoints:
-            api = ep + "prepare"
+            api = ep + "bpftNetwork/prepare"
             ret = requests.post(api, json=data)
             print("sent prepared to ", ep)
         return True

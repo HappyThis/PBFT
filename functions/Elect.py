@@ -8,7 +8,7 @@ elect_reject = False
 def Elect(msg):
     global elect_list
     value = msg['arg']['value']
-    addr = msg['arg']["addr"]
+    addr = msg["addr"]
     loopid = msg['arg']["loopid"]
     if loopid not in elect_list.keys():
         elect_list[loopid] = {}
@@ -18,6 +18,7 @@ def Elect(msg):
         "view": msg['view'],
         "timestamp": msg['timestamp'],
         "c": msg['arg']['endpoint'],
+        "c_addr": addr,
         "i": msg['i'],
         "r": r,
     }
@@ -28,11 +29,13 @@ def Elect(msg):
 def StopElect(msg):
     global elect_reject
     elect_reject = True
+    addr = msg["addr"]
     r = {}
     reply = {
         "view": msg['view'],
         "timestamp": msg['timestamp'],
         "c": msg['arg']['endpoint'],
+        "c_addr": addr,
         "i": msg['i'],
         "r": r,
     }

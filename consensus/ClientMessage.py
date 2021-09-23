@@ -7,7 +7,7 @@ class ClientMessage:
         self.signature = signature
         self.clinet_addr = clinetAddr
         self.arg = arg
-        self.timestamp = timestamp,
+        self.timestamp = timestamp
 
     # 检查是否正确
     def Check(self):
