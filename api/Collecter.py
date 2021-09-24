@@ -55,6 +55,11 @@ def SendCollecterDecorator(api):
         lock.release()
         # 线程安全保护结束
         ret = requests.post(url, json=msg)
+        if ret.text == "-1":
+            lock.acquire()
+            message[timestamp][1].cancel()
+            del message[timestamp]
+            lock.release()
         return ret
 
     return NewFunction

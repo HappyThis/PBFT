@@ -3,9 +3,8 @@ from flask import Flask, request
 from api.Collecter import ReplyCollecter
 from consensus.Network import bpftNetwork
 from consensus.PbftProcess import PBFT, pbftCore
-from functions.Elect import Elect, elect_reject, StopElect
-from functions.Pledge import Pledge, pledge_reject, StopPledge
-from test.TestRouter import test
+from functions import Elect, Pledge
+from pbft_test.TestRouter import test
 
 app = Flask(__name__)
 app.register_blueprint(bpftNetwork, url_prefix="/bpftNetwork")
@@ -20,13 +19,13 @@ def FuncRouter():
     msg = request.json
     func = msg['arg']['func']
     if func == 'elect':
-        Elect(msg)
+        Elect.Elect(msg)
     if func == 'stopElect':
-        StopElect(msg)
+        Elect.StopElect(msg)
     if func == 'pledge':
-        Pledge(msg)
+        Pledge.Pledge(msg)
     if func == 'stopPledge':
-        StopPledge(msg)
+        Pledge.StopPledge(msg)
     return "ok"
 
 
@@ -34,10 +33,10 @@ def FuncRouter():
 @app.route('/recvNodesMessage', methods=["POST"])
 def RecvNodesMessage():
     msg = request.json
-    if elect_reject and msg["arg"]["func"] == "elect":
-        return -1
-    if pledge_reject and msg["arg"]["func"] == "pledge":
-        return -1
+    if Elect.elect_reject and msg["arg"]["func"] == "elect":
+        return str(-1)
+    if Pledge.pledge_reject and msg["arg"]["func"] == "pledge":
+        return str(-1)
     msg["type"] = "client"
     pbftCore.AddMessage(msg)
     return msg["timestamp"]
