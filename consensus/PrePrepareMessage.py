@@ -39,7 +39,8 @@ class PrePrepareMessage:
             "timestamp": self.client_message.timestamp,
             "i": i,
             "arg": self.client_message.arg,
-            "addr": self.client_message.clinet_addr
+            "addr": self.client_message.clinet_addr,
+            "initMsg": self.client_message.__dict__
         }
         ret = requests.post(api, json=replyDict)
         return True

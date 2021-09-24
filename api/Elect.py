@@ -10,7 +10,6 @@ def Elect(value, url, timestamp, addr, endpoint):
              "timestamp": timestamp,
              "arg": {
                  "func": "elect",
-                 "loopid": 0,
                  "endpoint": endpoint,
                  "value": value
              }}
@@ -24,7 +23,6 @@ def StopElect(url, timestamp, addr, endpoint):
                  "timestamp": timestamp,
                  "arg": {
                      "func": "stopElect",
-                     "loopid": 0,
                      "endpoint": endpoint
                  }}
     return stopElect

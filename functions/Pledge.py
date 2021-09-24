@@ -9,10 +9,7 @@ def Pledge(msg):
     global pledge_list
     value = msg['arg']['value']
     addr = msg["addr"]
-    loopid = msg['arg']["loopid"]
-    if loopid not in pledge_list.keys():
-        pledge_list[loopid] = {}
-    pledge_list[loopid][addr] = value
+    pledge_list[addr] = value
     r = {}
     reply = {
         "view": msg['view'],
@@ -21,6 +18,7 @@ def Pledge(msg):
         "c_addr": addr,
         "i": msg['i'],
         "r": r,
+        "func": "pledge",
     }
     return reply
 
@@ -38,5 +36,6 @@ def StopPledge(msg):
         "c_addr": addr,
         "i": msg['i'],
         "r": r,
+        "func": "stopPledge",
     }
     return reply

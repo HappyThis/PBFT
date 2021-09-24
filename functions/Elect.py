@@ -7,12 +7,8 @@ elect_reject = False
 @ReplyerDecorator
 def Elect(msg):
     global elect_list
-    value = msg['arg']['value']
     addr = msg["addr"]
-    loopid = msg['arg']["loopid"]
-    if loopid not in elect_list.keys():
-        elect_list[loopid] = {}
-    elect_list[loopid][addr] = value
+    elect_list[addr] = msg['initMsg']
     r = {}
     reply = {
         "view": msg['view'],
@@ -21,6 +17,7 @@ def Elect(msg):
         "c_addr": addr,
         "i": msg['i'],
         "r": r,
+        "func": "elect",
     }
     return reply
 
@@ -38,5 +35,6 @@ def StopElect(msg):
         "c_addr": addr,
         "i": msg['i'],
         "r": r,
+        "func": "stopElect",
     }
     return reply

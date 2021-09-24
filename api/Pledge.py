@@ -8,10 +8,10 @@ def Pledge(value, url, timestamp, addr, endpoint):
               "timestamp": timestamp,
               "arg": {
                   "func": "pledge",
-                  "loopid": 0,
                   "endpoint": endpoint,
                   "value": value
               }}
+    # 签名
     return pledge
 
 
@@ -22,7 +22,7 @@ def StopPledge(url, timestamp, addr, endpoint):
                   "timestamp": timestamp,
                   "arg": {
                       "func": "stopPledge",
-                      "loopid": 0,
                       "endpoint": endpoint
                   }}
+    # 签名
     return stopPledge

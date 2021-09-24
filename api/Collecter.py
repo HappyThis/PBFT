@@ -4,6 +4,9 @@ from functools import wraps
 
 import requests
 
+from functions.Elect import elect_list
+from functions.Pledge import pledge_list
+
 lock = threading.Lock()
 
 # 对该对象进行操作时要注意线程安全
@@ -54,12 +57,15 @@ def SendCollecterDecorator(api):
         timer.start()
         lock.release()
         # 线程安全保护结束
+        # 调用
         ret = requests.post(url, json=msg)
+        # 返回-1说明该请求被拒绝
         if ret.text == "-1":
             lock.acquire()
             message[timestamp][1].cancel()
             del message[timestamp]
             lock.release()
+
         return ret
 
     return NewFunction
@@ -74,6 +80,20 @@ def ReplyCollecter(msg):
     senderSet.add(sender)
     from consensus.PbftProcess import pbftCore
     if len(senderSet) >= 2 * pbftCore.f + 1:
+        # 判断一下这是个什么消息的回复
+        func = msg['func']
+        if func == "stopElect":
+            # 第一次收到该消息，调用智能合约，发送本地保存的数据
+            commit_list = []
+            for key in elect_list.keys():
+                commit_list.append(elect_list[key])
+            print(commit_list)
+        if func == "stopPledge":
+            # 第一次收到该消息，调用智能合约，发送本地保存的数据
+            commit_list = []
+            for key in pledge_list.keys():
+                commit_list.append(pledge_list[key])
+            print(commit_list)
         message[timestamp][1].cancel()
         del message[timestamp]
         print("get 2*f+1 reply:", timestamp)
